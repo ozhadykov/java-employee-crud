@@ -33,7 +33,7 @@ public class EmployeeController {
         // add to the spring model
         theModel.addAttribute("employees", employees);
 
-        return "employees/list";
+        return "employees/list-employees";
     }
 
     // add mapping for adding employee form
@@ -46,7 +46,11 @@ public class EmployeeController {
     // process the post request employee form
     @PostMapping("/process-employee-form")
     public String processEmployeeForm(@ModelAttribute("employee") Employee theEmployee) {
+
+        // save employee
         this.employeeService.save(theEmployee);
+
+        // redirect to prevent duplicate submissions
         return "redirect:/employees/list";
     }
 }
