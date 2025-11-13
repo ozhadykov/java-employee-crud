@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -32,5 +34,19 @@ public class EmployeeController {
         theModel.addAttribute("employees", employees);
 
         return "employees/list";
+    }
+
+    // add mapping for adding employee form
+    @GetMapping("/add-employee-form")
+    public String addEmployeeForm(Model theModel) {
+        theModel.addAttribute("employee", new Employee());
+        return "employees/add-employee-form";
+    }
+
+    // process the post request employee form
+    @PostMapping("/process-employee-form")
+    public String processEmployeeForm(@ModelAttribute("employee") Employee theEmployee) {
+        this.employeeService.save(theEmployee);
+        return "redirect:/employees/list";
     }
 }
